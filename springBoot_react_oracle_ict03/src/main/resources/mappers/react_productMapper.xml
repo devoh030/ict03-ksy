@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	  
+<mapper namespace="react.oracle.ict03.dao.ProductMapper">
+	<!-- 상품목록 -->
+	<select id="productList" resultType="react.oracle.ict03.dto.ProductDTO">
+		SELECT * FROM MVC_PRODUCT_TBL
+	 	ORDER BY id
+	</select>
+	
+	<!-- 상품등록 -->
+	<insert id="insertProduct" parameterType="react.oracle.ict03.dto.ProductDTO">
+		INSERT INTO MVC_PRODUCT_TBL(id, name, brand, madein, price)
+		VALUES((SELECT NVL(MAX(id)+1,1) FROM MVC_PRODUCT_TBL),  #{name}, #{brand}, #{madein}, #{price})
+	</insert>
+	
+	<!-- 상품수정 -->
+	<update id="updateProduct" parameterType="react.oracle.ict03.dto.ProductDTO">
+		UPDATE MVC_PRODUCT_TBL
+   		   SET name = #{name}, brand = #{brand}, madein = #{madein}, price = #{price}
+ 		 WHERE id = #{id}
+	</update>
+	
+	<!-- 상품삭제 -->
+	<delete id="deleteProduct">
+		DELETE FROM MVC_PRODUCT_TBL
+		 WHERE id = #{id}
+	</delete>
+	
+	<!-- 상품상세 -->
+	<select id="selectProduct" parameterType="int" resultType="react.oracle.ict03.dto.ProductDTO">
+		SELECT * FROM MVC_PRODUCT_TBL
+ 		 WHERE id = #{id}
+	</select>
+
+</mapper>
